@@ -10,10 +10,10 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
-migrate = Migrate(app, db)
+
 def create_tables():
     db.create_all()
-
+migrate = Migrate(app, db)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = TuringTestForm()

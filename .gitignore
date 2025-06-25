@@ -1,0 +1,50 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables file
+.env
+
+# Virtual environment folder (if you use one)
+venv/
+env/
+.venv/
+
+# Flask instance folder (if using instance folder for config)
+instance/
+
+# Pytest cache
+.pytest_cache/
+
+# Editor folders and files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Database files (SQLite, if any)
+*.db
+*.sqlite3
+
+# Coverage reports
+htmlcov/
+.coverage
+
+# Migrations (optional, if you want to keep migration files tracked)
+migrations/
+
+# Python Egg info
+*.egg-info/
+dist/
+build/
+
+# wheel files
+*.whl

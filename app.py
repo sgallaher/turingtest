@@ -6,11 +6,14 @@ import time, datetime
 from textblob import TextBlob
 from flask_migrate import Migrate
 
+from dotenv import load_dotenv
+import os
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
-
+load_dotenv()  # take environment variables from .env.
 def create_tables():
     db.create_all()
 migrate = Migrate(app, db)
@@ -50,8 +53,9 @@ def index():
         )
         db.session.add(submission)
         db.session.commit()
-
         return render_template('result.html', verdict=verdict, confidence=confidence)
+    else:
+        print("Form errors:", form.errors)  # <-- Add this line
     return render_template('index.html', form=form)
 
 @app.route('/admin')

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+<h1 class="mb-4 text-danger">Admin Panel</h1>
+
+<table class="table table-striped table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Submitted At</th>
+      <th>IP Address</th>
+      <th>Verdict</th>
+      <th>Confidence</th>
+      <th>Total Time (s)</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in submissions %}
+    <tr>
+      <td>{{ s.id }}</td>
+      <td>{{ s.submitted_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+      <td>{{ s.ip_address }}</td>
+      <td>{{ s.verdict }}</td>
+      <td>{{ '%.2f' % (s.confidence * 100) }}%</td>
+      <td>{{ '%.1f' % s.total_duration }}</td>
+      <td>
+        <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#details-{{ s.id }}">
+          View
+        </button>
+      </td>
+    </tr>
+    <tr class="collapse" id="details-{{ s.id }}">
+      <td colspan="7">
+        <div class="card card-body">
+          <ul class="list-group">
+            {% for key, data in s.q_data.items() %}
+              <li class="list-group-item">
+                <strong>{{ key }}:</strong><br>
+                <em>{{ data.answer }}</em><br>
+                <small>Duration: {{ '%.2f' % data.duration }}s |
+                Spelling: {{ data.spelling_score }} |
+                Meaning: {{ data.meaning_score }}</small>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

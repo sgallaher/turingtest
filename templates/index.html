@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Turing Test Questionnaire{% endblock %}
+
+{% block content %}
+<h1 class="mb-4 text-primary">Turing Test Questionnaire</h1>
+<form method="POST" id="turingForm" novalidate>
+  {{ form.hidden_tag() }}
+
+  {% for field in form if field.name != 'submit' %}
+    <div class="mb-4">
+      <label for="{{ field.id }}" class="form-label"><strong>{{ field.label.text }}</strong></label>
+      {{ field(class="form-control", rows="3") }}
+    </div>
+  {% endfor %}
+
+  <button type="submit" class="btn btn-success btn-lg mt-3">{{ form.submit.label.text }}</button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const startTime = Date.now();
+  const questionStartTimes = {};
+  const textAreas = document.querySelectorAll("textarea");
+
+  textAreas.forEach((ta, idx) => {
+    const qKey = `q${idx + 1}`;
+    ta.addEventListener("focus", () => {
+      if (!questionStartTimes[qKey]) {
+        questionStartTimes[qKey] = Date.now();
+      }
+    });
+  });
+
+  const form = document.getElementById("turingForm");
+  form.addEventListener("submit", () => {
+    const formElement = document.createElement("input");
+    formElement.type = "hidden";
+    formElement.name = "startTime";
+    formElement.value = startTime / 1000;
+    form.appendChild(formElement);
+
+    textAreas.forEach((ta, idx) => {
+      const qKey = `q${idx + 1}`;
+      const hiddenInput = document.createElement("input");
+      hiddenInput.type = "hidden";
+      hiddenInput.name = `${qKey}_time`;
+      const qStart = questionStartTimes[qKey] || startTime;
+      hiddenInput.value = (Date.now() - qStart) / 1000;
+      form.appendChild(hiddenInput);
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Result{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+  <h2 class="text-success">Analysis Complete</h2>
+  <p class="lead">You were classified as: <strong>{{ verdict|capitalize }}</strong></p>
+  <p>Confidence: <strong>{{ '%.0f' % (confidence * 100) }}%</strong></p>
+  <a href="{{ url_for('index') }}" class="btn btn-primary mt-4">Try Again</a>
+</div>
+{% endblock %}
